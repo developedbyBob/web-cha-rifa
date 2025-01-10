@@ -280,4 +280,17 @@ footer {
   margin: 20px auto;
   max-width: 200px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  animation: is-rotating 1s infinite;
+  border: 6px solid #e5e5e5;
+  border-radius: 50%;
+  border-top-color: #51d4db;
+  height: 50px;
+  width: 50px;
+  margin: 20px auto;
+}
+
+@keyframes is-rotating {
+  to {
+    transform: rotate(1turn);
+  }
 }
