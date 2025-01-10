@@ -4,13 +4,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchReservations() {
   try {
+    const loading = document.getElementById('loading');
+    const grid = document.getElementById('grid');
+    loading.classList.remove('hidden');
+    grid.classList.add('hidden');
+    
     const response = await fetch('/reservations');
     if (!response.ok) {
       throw new Error('Erro ao obter reservas');
     }
     reservations = await response.json(); // Atualizar a variável reservations
-    renderGrid(reservations);
-    renderParticipantsList(); // Atualizar a lista de participantes
+    
+    // Adicionar um tempo de 2 segundos antes de exibir os números
+    setTimeout(() => {
+      renderGrid(reservations);
+      renderParticipantsList(); // Atualizar a lista de participantes
+      
+      loading.classList.add('hidden');
+      grid.classList.remove('hidden');
+    }, 2000);
   } catch (error) {
     console.error('Erro ao obter reservas:', error);
   }

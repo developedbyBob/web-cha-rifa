@@ -269,3 +269,15 @@ header span {
 footer {
   padding: 10px;
 }
+
+#loading {
+  font-size: 24px;
+  color: #fff;
+  background: linear-gradient(135deg, #68b9c8, #608997);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 200px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
