@@ -1,0 +1,271 @@
+/* Estilos gerais */
+body {
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  background-image: url(../assets/images/back-benjamim.png);
+  background-size: cover;
+}
+
+header {
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.info, #admin-button {
+  color: #fff;
+  background: linear-gradient(135deg, #68b9c8, #608997);
+  padding: 30px;
+  margin: 0 auto;
+  max-width: 400px; /* Limite de largura */
+  font-family: "Poppins", serif;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  margin-top: 20px;
+}
+
+.info h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color:  #f4b23c; /* Destacar título */
+}
+
+.info p {
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+.info strong {
+  color:  #f4b23c; /* Destacar partes importantes */
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+#grid div {
+  padding: 20px;
+  cursor: pointer;
+  text-align: center;
+  border: #dcfcff solid 1px;
+  font-family: "Hachi Maru Pop", serif;
+}
+
+#grid div:nth-child(5n+2),
+#grid div:nth-child(5n+4) {
+  background-color: #8cb8c7;
+}
+
+#grid div:nth-child(5n+1),
+#grid div:nth-child(5n+3),
+#grid div:nth-child(5n+5) {
+  background-color: #dcf6ff;
+}
+
+#grid div.available {
+  color: #04424d;
+}
+
+#grid div.reserved {
+  background-color: #ffcccc;
+  color: #721c24;
+  cursor: not-allowed;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Modal */
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #68b9c8, #608997);
+  color: #fff;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: left;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+#close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #fff;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #f4b23c;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.modal-content input[type="text"],
+.modal-content textarea {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+.modal-content button[type="submit"] {
+  background-color: #f4b23c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.modal-content button[type="submit"]:hover {
+  background-color: #e0a21f;
+}
+
+/* Painel Administrativo */
+#admin-panel {
+  background: #f8f9fa;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 20px auto;
+  max-width: 500px;
+  text-align: left;
+  margin-top: 20px;
+}
+
+#admin-panel h2 {
+  margin-top: 0;
+}
+
+#admin-panel ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#admin-panel ul li {
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+#admin-panel button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#admin-panel button:hover {
+  background-color: #0056b3;
+}
+
+#admin-panel.hidden {
+  display: none;
+}
+
+#winner-display {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #grid {
+    grid-template-columns: repeat(5, 1fr); /* 5 colunas em telas menores */
+  }
+}
+
+@media (max-width: 480px) {
+  #grid {
+    grid-template-columns: repeat(5, 1fr); /* 5 colunas em celulares */
+  }
+}
+
+.gift-option {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.gift-option.selected {
+  background-color: #d4edda;
+  color: #155724;
+  border-color: #155724;
+}
+
+#copy-pix-key {
+  background-color: #f4b23c;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#copy-pix-key:hover {
+  background-color: #e0a21f;
+}
+
+#copy-success {
+  color: #155724;
+  margin-top: 10px;
+}
+
+/* Ajuste de fontes */
+header h1 {
+  font-size: 50px;
+  color: #4daabb;
+}
+
+header h1 img {
+  width: 100%;
+  height: auto;
+  margin-right: 10px;
+}
+
+header span {
+  font-size: 100px;
+  color: #f4b23c;
+}
+
+footer {
+  padding: 10px;
+}
