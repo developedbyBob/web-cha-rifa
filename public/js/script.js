@@ -142,7 +142,7 @@ const adminPanel = document.getElementById("admin-panel");
 const participantsList = document.getElementById("participants-list");
 const drawButton = document.getElementById("draw-button");
 const winnerDisplay = document.getElementById("winner-display");
-const adminPassword = "1234"; // Defina sua senha aqui
+const adminPassword = "584020"; // Defina sua senha aqui
 
 // Solicitar senha para abrir painel administrativo
 adminButton.onclick = () => {
