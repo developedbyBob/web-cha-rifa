@@ -1,4 +1,17 @@
 // frontend/js/app.js
+// Registrar o Service Worker para PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(registration => {
+          console.log('Service Worker registrado com sucesso:', registration.scope);
+        })
+        .catch(error => {
+          console.error('Erro ao registrar Service Worker:', error);
+        });
+    });
+  }
+
 document.addEventListener('DOMContentLoaded', () => {
     const gridElement = document.getElementById('grid');
     const loadingElement = document.getElementById('loading');
@@ -67,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
           const data = await API.getReservations();
           this.reservations = data;
           grid.updateReservations(this.reservations);
-          adminPanel.updateParticipantsList(this.reservations);
+          adminPanel.updateReservations(this.reservations); // Modificar esta linha
           
           setTimeout(() => {
             ui.hideLoading();
-          }, 500); // Pequeno delay para animação
+          }, 500);
         } catch (error) {
           ui.hideLoading();
           ui.showNotification('Erro ao carregar reservas.', 'error');

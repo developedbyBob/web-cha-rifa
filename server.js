@@ -30,7 +30,7 @@ app.use('/api/', apiLimiter);
 app.use('/api', require('./backend/routes'));
 
 // Servir arquivos estáticos
-app.use(express.static(path.join(__dirname, 'frontend')));
+app.use('/', express.static(path.join(__dirname, 'frontend')));
 
 // Rota para a página inicial
 app.get('*', (req, res) => {

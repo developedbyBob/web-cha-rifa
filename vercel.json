@@ -1,15 +1,54 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "server.js",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "server.js",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/server.js"
+      {
+        "src": "/assets/(.*)",
+        "dest": "/frontend/assets/$1",
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
         }
-    ]
-}
+      },
+      {
+        "src": "/css/(.*)",
+        "dest": "/frontend/css/$1",
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      },
+      {
+        "src": "/js/(.*)",
+        "dest": "/frontend/js/$1",
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      },
+      {
+        "src": "/manifest.json",
+        "dest": "/public/manifest.json"
+      },
+      {
+        "src": "/sw.js",
+        "dest": "/public/sw.js",
+        "headers": {
+          "cache-control": "no-cache, no-store, must-revalidate"
+        }
+      },
+      {
+        "src": "/offline.html",
+        "dest": "/public/offline.html"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/server.js"
+      }
+    ],
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }

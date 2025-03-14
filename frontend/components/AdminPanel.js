@@ -1,21 +1,67 @@
 // frontend/components/AdminPanel.js
 class AdminPanel {
     constructor(element) {
-      this.element = element;
-      this.onDraw = null;
-      this.onDelete = null;
-      this.setupEventListeners();
-    }
+        this.element = element;
+        this.onDraw = null;
+        this.onDelete = null;
+        this.reservations = []; // Adicionar esta linha
+        this.setupEventListeners();
+      }
     
-    setupEventListeners() {
-      const drawButton = this.element.querySelector('#draw-button');
-      
-      drawButton.addEventListener('click', () => {
-        if (this.onDraw) {
-          this.onDraw();
+      setupEventListeners() {
+        const drawButton = this.element.querySelector('#draw-button');
+        const tabButtons = this.element.querySelectorAll('.tab-button');
+        const closeAdmin = this.element.querySelector('#close-admin');
+        
+        // Adicionar eventos para as abas
+        tabButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            // Remover classe ativa de todos os botões
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Adicionar classe ativa ao botão clicado
+            button.classList.add('active');
+            
+            // Esconder todos os conteúdos de abas
+            const tabContents = this.element.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.add('hidden'));
+            
+            // Mostrar conteúdo correspondente
+            const tabId = button.getAttribute('data-tab');
+            this.element.querySelector(`#${tabId}-tab`).classList.remove('hidden');
+          });
+        });
+        
+        // Botão de fechar o painel
+        if (closeAdmin) {
+          closeAdmin.addEventListener('click', () => {
+            this.hide();
+          });
         }
-      });
-    }
+        
+        drawButton.addEventListener('click', () => {
+          if (this.onDraw) {
+            this.onDraw();
+          }
+        });
+
+        const searchInput = this.element.querySelector('#search-participants');
+if (searchInput) {
+  searchInput.addEventListener('input', (e) => {
+    const searchText = e.target.value.toLowerCase();
+    const items = this.element.querySelectorAll('.participants-list li');
+    
+    items.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (text.includes(searchText)) {
+        item.style.display = 'flex';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+}
+      }
     
     setOnDraw(callback) {
       this.onDraw = callback;
@@ -71,7 +117,12 @@ class AdminPanel {
         list.appendChild(li);
       });
     }
-    
+
+    updateReservations(reservations) {
+        this.reservations = reservations;
+        this.updateParticipantsList(reservations);
+      }
+
     showWinner(winner) {
       // Animação do sorteio
       const winnerDisplay = this.element.querySelector('#winner-display');
