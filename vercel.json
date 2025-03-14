@@ -9,31 +9,19 @@
     "routes": [
       {
         "src": "/assets/(.*)",
-        "dest": "/frontend/assets/$1",
-        "headers": {
-          "cache-control": "public, max-age=31536000, immutable"
-        }
+        "dest": "/frontend/assets/$1"
       },
       {
         "src": "/css/(.*)",
-        "dest": "/frontend/css/$1",
-        "headers": {
-          "cache-control": "public, max-age=31536000, immutable"
-        }
+        "dest": "/frontend/css/$1"
       },
       {
         "src": "/js/(.*)",
-        "dest": "/frontend/js/$1",
-        "headers": {
-          "cache-control": "public, max-age=31536000, immutable"
-        }
+        "dest": "/frontend/js/$1"
       },
       {
         "src": "/components/(.*)",
-        "dest": "/frontend/components/$1",
-        "headers": {
-          "cache-control": "public, max-age=31536000, immutable"
-        }
+        "dest": "/frontend/components/$1"
       },
       {
         "src": "/manifest.json",
@@ -41,10 +29,7 @@
       },
       {
         "src": "/sw.js",
-        "dest": "/public/sw.js",
-        "headers": {
-          "cache-control": "no-cache, no-store, must-revalidate"
-        }
+        "dest": "/public/sw.js"
       },
       {
         "src": "/offline.html",
@@ -54,8 +39,5 @@
         "src": "/(.*)",
         "dest": "/server.js"
       }
-    ],
-    "env": {
-      "NODE_ENV": "production"
-    }
+    ]
   }
