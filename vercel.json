@@ -8,34 +8,6 @@
     ],
     "routes": [
       {
-        "src": "/assets/(.*)",
-        "dest": "/frontend/assets/$1"
-      },
-      {
-        "src": "/css/(.*)",
-        "dest": "/frontend/css/$1"
-      },
-      {
-        "src": "/js/(.*)",
-        "dest": "/frontend/js/$1"
-      },
-      {
-        "src": "/components/(.*)",
-        "dest": "/frontend/components/$1"
-      },
-      {
-        "src": "/manifest.json",
-        "dest": "/public/manifest.json"
-      },
-      {
-        "src": "/sw.js",
-        "dest": "/public/sw.js"
-      },
-      {
-        "src": "/offline.html",
-        "dest": "/public/offline.html"
-      },
-      {
         "src": "/(.*)",
         "dest": "/server.js"
       }

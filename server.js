@@ -44,11 +44,12 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
-// Servir arquivos estáticos diretamente da pasta frontend
+// Servir arquivos estáticos - tornar isto mais robusto para o ambiente Vercel
 // Para componentes JavaScript
 app.use('/components', express.static(path.join(__dirname, 'frontend/components'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'application/javascript');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
   }
 }));
 
@@ -56,6 +57,7 @@ app.use('/components', express.static(path.join(__dirname, 'frontend/components'
 app.use('/css', express.static(path.join(__dirname, 'frontend/css'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'text/css');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
   }
 }));
 
@@ -63,21 +65,35 @@ app.use('/css', express.static(path.join(__dirname, 'frontend/css'), {
 app.use('/js', express.static(path.join(__dirname, 'frontend/js'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'application/javascript');
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
   }
 }));
 
 // Para arquivos de assets (imagens, etc)
-app.use('/assets', express.static(path.join(__dirname, 'frontend/assets')));
+app.use('/assets', express.static(path.join(__dirname, 'frontend/assets'), {
+  setHeaders: (res) => {
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+  }
+}));
+
+// Servir arquivos da raiz do frontend
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 // Rotas específicas da pasta public que ainda precisamos manter
 app.get('/sw.js', (req, res) => {
   res.set('Content-Type', 'application/javascript');
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
   res.sendFile(path.resolve(__dirname, 'public', 'sw.js'));
 });
 
 app.get('/manifest.json', (req, res) => {
   res.set('Content-Type', 'application/json');
   res.sendFile(path.resolve(__dirname, 'public', 'manifest.json'));
+});
+
+app.get('/site.webmanifest', (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.sendFile(path.resolve(__dirname, 'public', 'site.webmanifest'));
 });
 
 app.get('/offline.html', (req, res) => {
@@ -89,8 +105,28 @@ app.get('/offline.html', (req, res) => {
 app.use('/api', require('./backend/routes/index'));
 
 // Rota para a página inicial
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
+// Rota de fallback para SPA
+app.get('*', (req, res) => {
+  // Verificar se a solicitação é para um arquivo
+  if (req.url.indexOf('.') === -1) {
+    // É uma rota de SPA, retornar index.html
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+  } else {
+    // Tentar servir o arquivo estático
+    const filePath = path.join(__dirname, 'frontend', req.url);
+    
+    // Verificar se o arquivo existe
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        // Se o arquivo não for encontrado, retornar 404
+        res.status(404).send('Arquivo não encontrado');
+      }
+    });
+  }
 });
 
 // Middleware para tratar erros
@@ -104,17 +140,23 @@ app.use((err, req, res, next) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+const server = app.listen(PORT || 3000, () => {
+  console.log(`Servidor rodando na porta ${PORT || 3000}`);
 });
 
 // Tratamento de sinais para desligamento gracioso
 process.on('SIGTERM', () => {
   console.log('SIGTERM recebido, desligando graciosamente');
-  process.exit(0);
+  server.close(() => {
+    console.log('Servidor fechado');
+    process.exit(0);
+  });
 });
 
 process.on('SIGINT', () => {
   console.log('SIGINT recebido, desligando graciosamente');
-  process.exit(0);
+  server.close(() => {
+    console.log('Servidor fechado');
+    process.exit(0);
+  });
 });
