@@ -2,6 +2,8 @@
 
 Um aplicativo web para gerenciar um chá de bebê, onde os participantes podem escolher um número de 1 a 100 e contribuir com fraldas ou PIX para celebrar a chegada do bebê Benjamin.
 
+**Site ao vivo:** [https://web-cha-rifa.vercel.app/](https://web-cha-rifa.vercel.app/)
+
 ## 📋 Sobre o Projeto
 
 Este aplicativo permite que amigos e familiares participem de um chá de bebê especial, escolhendo números de 1 a 100. Ao selecionar um número, os participantes podem optar por contribuir com um pacote de fraldas ou realizar um pagamento via PIX. O projeto inclui um painel administrativo para gerenciar as reservas e realizar um sorteio entre os participantes.
