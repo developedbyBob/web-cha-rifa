@@ -29,6 +29,13 @@
         }
       },
       {
+        "src": "/components/(.*)",
+        "dest": "/frontend/components/$1",
+        "headers": {
+          "cache-control": "public, max-age=31536000, immutable"
+        }
+      },
+      {
         "src": "/manifest.json",
         "dest": "/public/manifest.json"
       },
