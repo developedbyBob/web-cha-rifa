@@ -1,19 +1,19 @@
 const CACHE_NAME = 'cha-benjamin-v1';
 const urlsToCache = [
-    '/',
-    '/css/main.css',
-    '/css/components/grid.css',
-    '/css/components/modal.css',
-    '/css/components/admin.css',
-    '/js/utils.js',
-    '/js/api.js',
-    '/js/app.js',
-    '/components/Grid.js',
-    '/components/Modal.js',
-    '/components/AdminPanel.js',
-    '/assets/images/back-benjamim.png',
-    '/assets/images/nome_benjamin.png'
-  ];
+  '/',
+  '/css/main.css',
+  '/css/components/grid.css',
+  '/css/components/modal.css',
+  '/css/components/admin.css',
+  '/js/utils.js',
+  '/js/api.js',
+  '/js/app.js',
+  '/components/Grid.js',
+  '/components/Modal.js',
+  '/components/AdminPanel.js',
+  '/assets/images/back-benjamim.png',
+  '/assets/images/nome_benjamin.png'
+];
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -26,22 +26,24 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // IMPORTANTE: Ignorar recursos externos (como fontes do Google)
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Cache hit - return response
         if (response) {
           return response;
         }
         
-        return fetch(event.request).then(
-          response => {
-            // Check if we received a valid response
+        return fetch(event.request.clone())
+          .then(response => {
             if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
             
-            // Clone the response
             const responseToCache = response.clone();
             
             caches.open(CACHE_NAME)
@@ -50,17 +52,21 @@ self.addEventListener('fetch', event => {
               });
             
             return response;
-          }
-        );
-      })
-      .catch(() => {
-        // If both fail, show a generic fallback:
-        return caches.match('/offline.html');
+          })
+          .catch(error => {
+            // Retornar uma página offline para falhas de navegação
+            if (event.request.mode === 'navigate') {
+              return caches.match('/offline.html');
+            }
+            
+            // Para outros recursos, deixe o erro propagar
+            throw error;
+          });
       })
   );
 });
 
-// Limpar caches antigos quando uma nova versão for ativada
+// Limpar caches antigos
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(

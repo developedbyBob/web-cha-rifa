@@ -32,26 +32,27 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
-// Servir os componentes da pasta correta
+// Para componentes JavaScript que estão em /frontend/components
 app.use('/components', express.static(path.join(__dirname, 'frontend/components'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'application/javascript');
   }
 }));
 
-// Servir arquivos CSS
+// Para arquivos CSS
 app.use('/css', express.static(path.join(__dirname, 'frontend/css'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'text/css');
   }
 }));
 
-// Outros arquivos estáticos
+// Para arquivos JavaScript em /js
 app.use('/js', express.static(path.join(__dirname, 'frontend/js'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'application/javascript');
   }
 }));
+
 app.use('/assets', express.static(path.join(__dirname, 'frontend/assets')));
 
 // Rota para o Service Worker
