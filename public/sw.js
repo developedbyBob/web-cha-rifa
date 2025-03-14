@@ -1,19 +1,19 @@
 const CACHE_NAME = 'cha-benjamin-v1';
 const urlsToCache = [
-  '/',
-  '/css/main.css',
-  '/css/components/grid.css',
-  '/css/components/modal.css',
-  '/css/components/admin.css',
-  '/js/utils.js',
-  '/js/api.js',
-  '/js/app.js',
-  '/js/components/Grid.js',
-  '/js/components/Modal.js',
-  '/js/components/AdminPanel.js',
-  '/assets/images/back-benjamim.png',
-  '/assets/images/nome_benjamin.png'
-];
+    '/',
+    '/css/main.css',
+    '/css/components/grid.css',
+    '/css/components/modal.css',
+    '/css/components/admin.css',
+    '/js/utils.js',
+    '/js/api.js',
+    '/js/app.js',
+    '/components/Grid.js',
+    '/components/Modal.js',
+    '/components/AdminPanel.js',
+    '/assets/images/back-benjamim.png',
+    '/assets/images/nome_benjamin.png'
+  ];
 
 self.addEventListener('install', event => {
   event.waitUntil(

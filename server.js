@@ -12,25 +12,59 @@ const app = express();
 // Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// Middleware de segurança
-app.use(helmet()); // Configurar cabeçalhos HTTP para segurança
-app.use(compression()); // Compressão de resposta
-app.use(cors()); // Configurar CORS
+
+// Desativar CSP do Helmet para resolver problemas de fontes
+app.use(
+  helmet({
+    contentSecurityPolicy: false
+  })
+);
+
+app.use(compression());
+app.use(cors());
 
 // Limitar solicitações para prevenir ataques de força bruta
 const rateLimit = require('express-rate-limit');
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // limite de 100 solicitações por IP
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: 'Muitas solicitações deste IP, tente novamente após 15 minutos'
 });
 app.use('/api/', apiLimiter);
 
+// Servir os componentes da pasta correta
+app.use('/components', express.static(path.join(__dirname, 'frontend/components'), {
+  setHeaders: (res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+  }
+}));
+
+// Servir arquivos CSS
+app.use('/css', express.static(path.join(__dirname, 'frontend/css'), {
+  setHeaders: (res) => {
+    res.setHeader('Content-Type', 'text/css');
+  }
+}));
+
+// Outros arquivos estáticos
+app.use('/js', express.static(path.join(__dirname, 'frontend/js'), {
+  setHeaders: (res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+  }
+}));
+app.use('/assets', express.static(path.join(__dirname, 'frontend/assets')));
+
+// Rota para o Service Worker
+app.get('/sw.js', (req, res) => {
+  res.set('Content-Type', 'application/javascript');
+  res.sendFile(path.resolve(__dirname, 'public', 'sw.js'));
+});
+
+// Servir arquivos da pasta public
+app.use('/', express.static(path.join(__dirname, 'public')));
+
 // Rotas da API
 app.use('/api', require('./backend/routes'));
-
-// Servir arquivos estáticos
-app.use('/', express.static(path.join(__dirname, 'frontend')));
 
 // Rota para a página inicial
 app.get('*', (req, res) => {

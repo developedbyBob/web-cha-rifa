@@ -1,129 +1,207 @@
 <!-- frontend/index.html (versão melhorada) -->
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Chá de Bebê do Benjamin - Escolha um número e participe com fraldas ou PIX">
-  <meta name="keywords" content="chá de bebê, rifa, Benjamin, fraldas">
-  <meta name="theme-color" content="#68b9c8">
-  
-  <title>Chá Rifa do Benjamin</title>
-  <link rel="manifest" href="/manifest.json">
-  
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon_io/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_io/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_io/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  
-  <!-- Fontes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cookie&family=Hachi+Maru+Pop&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="/frontend/css/main.css">
-  <link rel="stylesheet" href="/frontend/css/components/grid.css">
-  <link rel="stylesheet" href="/frontend/css/components/modal.css">
-  <link rel="stylesheet" href="/frontend/css/components/admin.css">
-</head>
-<body>
-  <header>
-    <h1>
-      <img src="/assets/images/nome_benjamin.png" alt="Chá de Bebê do Benjamin" width="300" height="100">
-    </h1>
-    <div class="info" aria-live="polite">
-      <h2>Bem-vindo ao Chá Rifa do Benjamin!</h2>
-      <p>🎉 Escolha um número de <strong>1 a 100</strong>!</p>
-      <p>🎁 Ao clicar em um número você terá a opção entre contribuir com um <strong>Pacote de Fraldas ou um PIX equivalente!</strong></p>
-      <p>📅 Sorteio: <strong>6 de Março</strong></p>
-      <p>💰 <strong>Prêmio: R$100 em PIX</strong></p>
-      <p>🔒 Boa sorte e obrigada por participar desse momento especial! 💕</p>
-    </div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Chá de Bebê do Benjamin - Escolha um número e participe com fraldas ou PIX"
+    />
+    <meta name="keywords" content="chá de bebê, rifa, Benjamin, fraldas" />
+    <meta name="theme-color" content="#68b9c8" />
 
-  <main>
-    <div id="loading" class="loading-spinner" aria-hidden="true"></div>
-    <div id="grid" class="grid-container" aria-label="Grade de números para escolha">
-      <!-- Números da rifa serão gerados dinamicamente -->
-    </div>
-  </main>
+    <title>Chá Rifa do Benjamin</title>
+    <link rel="manifest" href="/manifest.json" />
 
-  <!-- Modal para seleção de número e presente -->
-  <div id="modal" class="modal hidden" inert role="dialog" aria-labelledby="modal-title">
-    <div class="modal-content">
-      <button id="close-modal" class="close-button" aria-label="Fechar modal">&times;</button>
-      <h2 id="modal-title">Escolha o presente para o número <span id="selected-number"></span></h2>
-      <form id="reservation-form">
-        <div class="form-group">
-          <label for="name">Seu Nome:</label>
-          <input type="text" id="name" name="name" required aria-required="true">
-        </div>
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/favicon_io/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon_io/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon_io/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
 
-        <div class="form-group">
-          <label for="phone">Telefone:</label>
-          <input type="tel" id="phone" name="phone" required aria-required="true" 
-                 pattern="(\d{10,11}|\(\d{2}\)\s*\d{4,5}-\d{4})"
-                 title="Digite um número de telefone válido">
-        </div>
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cookie&family=Hachi+Maru+Pop&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-        <fieldset>
-          <legend>Escolha o presente:</legend>
-          <div id="gift-options" class="gift-options">
-            <!-- Opções de presente geradas dinamicamente -->
-          </div>
-        </fieldset>
-
-        <div id="pix-details" class="pix-details hidden">
-          <p>Chave Pix (Copia e Cola):</p>
-          <textarea id="pix-key" readonly aria-label="Chave Pix para copiar"></textarea>
-          <button type="button" id="copy-pix-key" class="copy-button">Copiar Chave Pix</button>
-          <p id="copy-success" class="success-message hidden" aria-live="polite">Chave Pix copiada!</p>
-        </div>
-
-        <button type="submit" class="submit-button">Reservar</button>
-      </form>
-    </div>
-  </div>
-
-  <footer>
-    <button id="admin-button" class="admin-button">Para os Papais</button>
-    <p class="copyright">&copy; 2025 - Chá de Bebê do Benjamin</p>
-  </footer>
-
-  <!-- Painel Administrativo -->
-  <div id="admin-panel" class="admin-panel hidden">
-    <h2>Painel de Administração</h2>
-    <div class="admin-tabs">
-      <button class="tab-button active" data-tab="participants">Participantes</button>
-      <button class="tab-button" data-tab="draw">Sorteio</button>
-    </div>
-    
-    <div id="participants-tab" class="tab-content">
-      <div class="search-bar">
-        <input type="text" id="search-participants" placeholder="Buscar por nome ou número...">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/components/grid.css" />
+    <link rel="stylesheet" href="/css/components/modal.css" />
+    <link rel="stylesheet" href="/css/components/admin.css" />
+  </head>
+  <body>
+    <header>
+      <h1>
+        <img
+          src="/assets/images/nome_benjamin.png"
+          alt="Chá de Bebê do Benjamin"
+          width="300"
+          height="100"
+        />
+      </h1>
+      <div class="info" aria-live="polite">
+        <h2>Bem-vindo ao Chá Rifa do Benjamin!</h2>
+        <p>🎉 Escolha um número de <strong>1 a 100</strong>!</p>
+        <p>
+          🎁 Ao clicar em um número você terá a opção entre contribuir com um
+          <strong>Pacote de Fraldas ou um PIX equivalente!</strong>
+        </p>
+        <p>📅 Sorteio: <strong>6 de Março</strong></p>
+        <p>💰 <strong>Prêmio: R$100 em PIX</strong></p>
+        <p>🔒 Boa sorte e obrigada por participar desse momento especial! 💕</p>
       </div>
-      <ul id="participants-list" class="participants-list">
-        <!-- Lista de participantes gerada dinamicamente -->
-      </ul>
-    </div>
-    
-    <div id="draw-tab" class="tab-content hidden">
-      <p>Quando estiver pronto para sortear o vencedor, clique no botão abaixo:</p>
-      <button id="draw-button" class="draw-button">Realizar Sorteio</button>
-      <div id="winner-display" class="winner-display" aria-live="polite"></div>
-    </div>
-    
-    <button id="close-admin" class="close-admin">Fechar Painel</button>
-  </div>
+    </header>
 
-  <!-- JavaScript -->
-  <script src="/js/utils.js"></script>
-  <script src="/js/api.js"></script>
-  <script src="/js/components/Grid.js"></script>
-  <script src="/js/components/Modal.js"></script>
-  <script src="/js/components/AdminPanel.js"></script>
-  <script src="/js/app.js"></script>
-</body>
+    <main>
+      <div id="loading" class="loading-spinner" aria-hidden="true"></div>
+      <div
+        id="grid"
+        class="grid-container"
+        aria-label="Grade de números para escolha"
+      >
+        <!-- Números da rifa serão gerados dinamicamente -->
+      </div>
+    </main>
+
+    <!-- Modal para seleção de número e presente -->
+    <div
+      id="modal"
+      class="modal hidden"
+      inert
+      role="dialog"
+      aria-labelledby="modal-title"
+    >
+      <div class="modal-content">
+        <button id="close-modal" class="close-button" aria-label="Fechar modal">
+          &times;
+        </button>
+        <h2 id="modal-title">
+          Escolha o presente para o número <span id="selected-number"></span>
+        </h2>
+        <form id="reservation-form">
+          <div class="form-group">
+            <label for="name">Seu Nome:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Telefone:</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              required
+              aria-required="true"
+              pattern="(\d{10,11}|\(\d{2}\)\s*\d{4,5}-\d{4})"
+              title="Digite um número de telefone válido"
+            />
+          </div>
+
+          <fieldset>
+            <legend>Escolha o presente:</legend>
+            <div id="gift-options" class="gift-options">
+              <!-- Opções de presente geradas dinamicamente -->
+            </div>
+          </fieldset>
+
+          <div id="pix-details" class="pix-details hidden">
+            <p>Chave Pix (Copia e Cola):</p>
+            <textarea
+              id="pix-key"
+              readonly
+              aria-label="Chave Pix para copiar"
+            ></textarea>
+            <button type="button" id="copy-pix-key" class="copy-button">
+              Copiar Chave Pix
+            </button>
+            <p
+              id="copy-success"
+              class="success-message hidden"
+              aria-live="polite"
+            >
+              Chave Pix copiada!
+            </p>
+          </div>
+
+          <button type="submit" class="submit-button">Reservar</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <button id="admin-button" class="admin-button">Para os Papais</button>
+      <p class="copyright">&copy; 2025 - Chá de Bebê do Benjamin</p>
+    </footer>
+
+    <!-- Painel Administrativo -->
+    <div id="admin-panel" class="admin-panel hidden">
+      <h2>Painel de Administração</h2>
+      <div class="admin-tabs">
+        <button class="tab-button active" data-tab="participants">
+          Participantes
+        </button>
+        <button class="tab-button" data-tab="draw">Sorteio</button>
+      </div>
+
+      <div id="participants-tab" class="tab-content">
+        <div class="search-bar">
+          <input
+            type="text"
+            id="search-participants"
+            placeholder="Buscar por nome ou número..."
+          />
+        </div>
+        <ul id="participants-list" class="participants-list">
+          <!-- Lista de participantes gerada dinamicamente -->
+        </ul>
+      </div>
+
+      <div id="draw-tab" class="tab-content hidden">
+        <p>
+          Quando estiver pronto para sortear o vencedor, clique no botão abaixo:
+        </p>
+        <button id="draw-button" class="draw-button">Realizar Sorteio</button>
+        <div
+          id="winner-display"
+          class="winner-display"
+          aria-live="polite"
+        ></div>
+      </div>
+
+      <button id="close-admin" class="close-admin">Fechar Painel</button>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/utils.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/components/Grid.js"></script>
+    <script src="/components/Modal.js"></script>
+    <script src="/components/AdminPanel.js"></script>
+    <script src="/js/app.js"></script>
+  </body>
 </html>
