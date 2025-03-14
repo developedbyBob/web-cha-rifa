@@ -11,8 +11,8 @@ if ('serviceWorker' in navigator) {
         });
     });
   }
-
-document.addEventListener('DOMContentLoaded', () => {
+  
+  document.addEventListener('DOMContentLoaded', () => {
     const gridElement = document.getElementById('grid');
     const loadingElement = document.getElementById('loading');
     const modalElement = document.getElementById('modal');
@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = new Grid(gridElement);
     const modal = new ReservationModal(modalElement);
     const adminPanel = new AdminPanel(adminPanelElement);
+    
+    // Esconder o painel de admin logo no início
+    adminPanelElement.classList.add('hidden');
     
     // Feedback visual durante carregamentos
     const ui = {
@@ -69,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
           
           // Carregar dados iniciais
           await this.loadReservations();
+          
+          // Aplicar estilos iniciais
+          document.body.classList.add('fade-in');
         } catch (error) {
           console.error('Erro ao inicializar aplicativo:', error);
           ui.showNotification('Erro ao carregar dados. Tente novamente.', 'error');
@@ -80,14 +86,18 @@ document.addEventListener('DOMContentLoaded', () => {
           const data = await API.getReservations();
           this.reservations = data;
           grid.updateReservations(this.reservations);
-          adminPanel.updateReservations(this.reservations); // Modificar esta linha
+          
+          if (localStorage.getItem('adminToken')) {
+            adminPanel.updateReservations(this.reservations);
+          }
           
           setTimeout(() => {
             ui.hideLoading();
           }, 500);
         } catch (error) {
           ui.hideLoading();
-          ui.showNotification('Erro ao carregar reservas.', 'error');
+          ui.showNotification('Erro ao carregar reservas. Verifique sua conexão.', 'error');
+          console.error('Detalhes do erro:', error);
         }
       },
       
@@ -106,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ui.showNotification(`Número ${data.number} reservado com sucesso!`);
         } catch (error) {
           ui.hideLoading();
-          modal.showError(error.message);
+          modal.showError(error.message || 'Erro ao processar reserva');
         }
       },
       
@@ -115,15 +125,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!password) return;
         
         try {
+          ui.showLoading();
           const result = await API.adminLogin(password);
           localStorage.setItem('adminToken', result.token);
           
-          adminPanel.show();
-          adminPanel.updateParticipantsList(this.reservations);
+          // Atualizar painel admin com os dados atuais
+          adminPanel.updateReservations(this.reservations);
           
+          // Mostrar o painel admin
+          adminPanel.show();
+          
+          ui.hideLoading();
           ui.showNotification('Login de administrador realizado com sucesso.');
         } catch (error) {
-          ui.showNotification('Senha incorreta!', 'error');
+          ui.hideLoading();
+          ui.showNotification('Senha incorreta ou erro de conexão!', 'error');
         }
       },
       

@@ -1,44 +1,62 @@
 /* frontend/css/components/admin.css */
 .admin-panel {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     margin: 20px auto;
     max-width: 800px;
-    padding: 25px;
+    padding: 30px;
     position: relative;
     transition: all 0.3s ease;
+    top: 20px;
+    opacity: 1;
+  }
+  
+  .admin-panel.hidden {
+    display: none;
+  }
+  
+  .admin-panel h2 {
+    color: #4daabb;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 26px;
   }
   
   .admin-tabs {
     display: flex;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #dee2e6;
+    gap: 10px;
   }
   
   .tab-button {
     background: none;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px;
     cursor: pointer;
     font-weight: 500;
     color: #6c757d;
     position: relative;
     transition: all 0.2s ease;
+    border-radius: 8px 8px 0 0;
+    font-size: 16px;
   }
   
   .tab-button:hover {
     color: #495057;
+    background-color: rgba(77, 170, 187, 0.08);
   }
   
   .tab-button.active {
     color: #4daabb;
+    font-weight: 600;
   }
   
   .tab-button.active::after {
     content: '';
     position: absolute;
-    bottom: -1px;
+    bottom: -2px;
     left: 0;
     width: 100%;
     height: 3px;
@@ -48,6 +66,7 @@
   
   .tab-content {
     display: block;
+    animation: fadeIn 0.3s ease;
   }
   
   .tab-content.hidden {
@@ -55,15 +74,22 @@
   }
   
   .search-bar {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   
   .search-bar input {
     width: 100%;
-    padding: 10px 15px;
+    padding: 12px 15px;
     border: 1px solid #ced4da;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .search-bar input:focus {
+    border-color: #4daabb;
+    box-shadow: 0 0 0 3px rgba(77, 170, 187, 0.25);
+    outline: none;
   }
   
   .participants-list {
@@ -72,15 +98,21 @@
     margin: 0;
     max-height: 400px;
     overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
   }
   
   .participants-list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 15px;
+    padding: 14px 18px;
     border-bottom: 1px solid #e9ecef;
     transition: background-color 0.2s ease;
+  }
+  
+  .participants-list li:last-child {
+    border-bottom: none;
   }
   
   .participants-list li:hover {
@@ -104,70 +136,79 @@
     background-color: #f8d7da;
     color: #721c24;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 8px 14px;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-weight: 500;
   }
   
   .delete-button:hover {
     background-color: #e2818a;
     color: #fff;
+    transform: translateY(-2px);
   }
   
   .draw-button {
     background-color: #f4b23c;
     color: #fff;
     border: none;
-    padding: 12px 24px;
-    border-radius: 6px;
+    padding: 14px 28px;
+    border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    margin: 20px 0;
+    margin: 25px auto;
+    display: block;
     transition: all 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
   .draw-button:hover {
     background-color: #e0a21f;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
   
   .winner-display {
     background-color: #d1ecf1;
     color: #0c5460;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 6px;
+    padding: 20px;
+    margin: 25px auto;
+    border-radius: 8px;
     text-align: center;
     font-size: 18px;
     min-height: 60px;
+    max-width: 600px;
   }
   
   .winner-announcement {
     background-color: #fff3cd;
     color: #856404;
     border: 2px solid #ffeeba;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
-    padding: 20px;
+    padding: 25px;
     animation: pulse 1s infinite alternate;
+    box-shadow: 0 0 20px rgba(244, 178, 60, 0.5);
   }
   
   .close-admin {
     background-color: #6c757d;
     color: #fff;
     border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 10px 18px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: 20px;
+    margin: 20px auto 0;
+    display: block;
+    transition: all 0.2s ease;
+    font-weight: 500;
   }
   
   .close-admin:hover {
     background-color: #5a6268;
+    transform: translateY(-2px);
   }
   
   /* Animação de confete */
@@ -192,5 +233,43 @@
   @keyframes confetti-fall {
     to {
       transform: translateY(100vh) rotate(720deg);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .admin-panel {
+      padding: 20px;
+      margin: 15px;
+    }
+    
+    .participant-info {
+      grid-template-columns: 40px 1.5fr 1fr 1fr;
+      gap: 10px;
+      font-size: 14px;
+    }
+    
+    .winner-announcement {
+      font-size: 20px;
+      padding: 20px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .admin-panel {
+      padding: 15px;
+    }
+    
+    .participant-info {
+      grid-template-columns: 30px 1.5fr 1fr;
+      font-size: 13px;
+    }
+    
+    .gift {
+      display: none;
+    }
+    
+    .tab-button {
+      padding: 10px 15px;
+      font-size: 14px;
     }
   }

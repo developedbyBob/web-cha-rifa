@@ -5,18 +5,30 @@ const { PORT } = require('./backend/config/env');
 const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
-require('./backend/config/database');
+const { connectDB } = require('./backend/config/database');
 
 const app = express();
+
+// Conectar ao banco de dados
+connectDB().catch(err => console.error('Erro ao conectar ao banco de dados:', err));
 
 // Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Desativar CSP do Helmet para resolver problemas de fontes
+// Configurar CSP para permitir recursos externos (como fontes do Google)
 app.use(
   helmet({
-    contentSecurityPolicy: false
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", "mongodb.com", "mongodb.net", "*"],
+        fontSrc: ["'self'", "fonts.googleapis.com", "fonts.gstatic.com"],
+        styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+        imgSrc: ["'self'", "data:"],
+        scriptSrc: ["'self'", "'unsafe-inline'"]
+      }
+    }
   })
 );
 
@@ -32,7 +44,8 @@ const apiLimiter = rateLimit({
 });
 app.use('/api/', apiLimiter);
 
-// Para componentes JavaScript que estão em /frontend/components
+// Servir arquivos estáticos diretamente da pasta frontend
+// Para componentes JavaScript
 app.use('/components', express.static(path.join(__dirname, 'frontend/components'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'application/javascript');
@@ -46,36 +59,48 @@ app.use('/css', express.static(path.join(__dirname, 'frontend/css'), {
   }
 }));
 
-// Para arquivos JavaScript em /js
+// Para arquivos JavaScript
 app.use('/js', express.static(path.join(__dirname, 'frontend/js'), {
   setHeaders: (res) => {
     res.setHeader('Content-Type', 'application/javascript');
   }
 }));
 
+// Para arquivos de assets (imagens, etc)
 app.use('/assets', express.static(path.join(__dirname, 'frontend/assets')));
 
-// Rota para o Service Worker
+// Rotas específicas da pasta public que ainda precisamos manter
 app.get('/sw.js', (req, res) => {
   res.set('Content-Type', 'application/javascript');
   res.sendFile(path.resolve(__dirname, 'public', 'sw.js'));
 });
 
-// Servir arquivos da pasta public
-app.use('/', express.static(path.join(__dirname, 'public')));
+app.get('/manifest.json', (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.sendFile(path.resolve(__dirname, 'public', 'manifest.json'));
+});
+
+app.get('/offline.html', (req, res) => {
+  res.set('Content-Type', 'text/html');
+  res.sendFile(path.resolve(__dirname, 'public', 'offline.html'));
+});
 
 // Rotas da API
-app.use('/api', require('./backend/routes'));
+app.use('/api', require('./backend/routes/index'));
 
 // Rota para a página inicial
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-// Tratamento de erros
+// Middleware para tratar erros
 app.use((err, req, res, next) => {
+  console.error('Erro:', err.message);
   console.error(err.stack);
-  res.status(500).json({ message: 'Erro interno do servidor' });
+  res.status(500).json({ 
+    message: 'Erro interno do servidor',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
 });
 
 // Iniciar servidor

@@ -5,6 +5,11 @@ const adminController = require('../controllers/adminController');
 const authMiddleware = require('../middleware/auth');
 const validateMiddleware = require('../middleware/validate');
 
+// Rota de teste para verificar se a API está funcionando
+router.get('/status', (req, res) => {
+  res.status(200).json({ message: 'API está funcionando!' });
+});
+
 // Rotas para reservas
 router.get('/reservations', reservationController.getAllReservations);
 router.post('/reservations', 

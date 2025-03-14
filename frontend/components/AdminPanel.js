@@ -1,67 +1,73 @@
 // frontend/components/AdminPanel.js
 class AdminPanel {
     constructor(element) {
-        this.element = element;
-        this.onDraw = null;
-        this.onDelete = null;
-        this.reservations = []; // Adicionar esta linha
-        this.setupEventListeners();
-      }
+      this.element = element;
+      this.onDraw = null;
+      this.onDelete = null;
+      this.reservations = []; 
+      
+      // Garantir que o painel começa oculto
+      this.element.classList.add('hidden');
+      
+      this.setupEventListeners();
+    }
     
-      setupEventListeners() {
-        const drawButton = this.element.querySelector('#draw-button');
-        const tabButtons = this.element.querySelectorAll('.tab-button');
-        const closeAdmin = this.element.querySelector('#close-admin');
-        
-        // Adicionar eventos para as abas
-        tabButtons.forEach(button => {
-          button.addEventListener('click', () => {
-            // Remover classe ativa de todos os botões
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Adicionar classe ativa ao botão clicado
-            button.classList.add('active');
-            
-            // Esconder todos os conteúdos de abas
-            const tabContents = this.element.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.add('hidden'));
-            
-            // Mostrar conteúdo correspondente
-            const tabId = button.getAttribute('data-tab');
-            this.element.querySelector(`#${tabId}-tab`).classList.remove('hidden');
-          });
+    setupEventListeners() {
+      const drawButton = this.element.querySelector('#draw-button');
+      const tabButtons = this.element.querySelectorAll('.tab-button');
+      const closeAdmin = this.element.querySelector('#close-admin');
+      
+      // Adicionar eventos para as abas
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remover classe ativa de todos os botões
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          
+          // Adicionar classe ativa ao botão clicado
+          button.classList.add('active');
+          
+          // Esconder todos os conteúdos de abas
+          const tabContents = this.element.querySelectorAll('.tab-content');
+          tabContents.forEach(content => content.classList.add('hidden'));
+          
+          // Mostrar conteúdo correspondente
+          const tabId = button.getAttribute('data-tab');
+          this.element.querySelector(`#${tabId}-tab`).classList.remove('hidden');
         });
-        
-        // Botão de fechar o painel
-        if (closeAdmin) {
-          closeAdmin.addEventListener('click', () => {
-            this.hide();
-          });
-        }
-        
+      });
+      
+      // Botão de fechar o painel
+      if (closeAdmin) {
+        closeAdmin.addEventListener('click', () => {
+          this.hide();
+        });
+      }
+      
+      if (drawButton) {
         drawButton.addEventListener('click', () => {
           if (this.onDraw) {
             this.onDraw();
           }
         });
-
-        const searchInput = this.element.querySelector('#search-participants');
-if (searchInput) {
-  searchInput.addEventListener('input', (e) => {
-    const searchText = e.target.value.toLowerCase();
-    const items = this.element.querySelectorAll('.participants-list li');
-    
-    items.forEach(item => {
-      const text = item.textContent.toLowerCase();
-      if (text.includes(searchText)) {
-        item.style.display = 'flex';
-      } else {
-        item.style.display = 'none';
       }
-    });
-  });
-}
+  
+      const searchInput = this.element.querySelector('#search-participants');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const searchText = e.target.value.toLowerCase();
+          const items = this.element.querySelectorAll('.participants-list li');
+          
+          items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchText)) {
+              item.style.display = 'flex';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
       }
+    }
     
     setOnDraw(callback) {
       this.onDraw = callback;
@@ -81,6 +87,8 @@ if (searchInput) {
     
     updateParticipantsList(reservations) {
       const list = this.element.querySelector('#participants-list');
+      if (!list) return; // Proteção contra elementos não encontrados
+      
       list.innerHTML = '';
       
       if (reservations.length === 0) {
@@ -117,21 +125,28 @@ if (searchInput) {
         list.appendChild(li);
       });
     }
-
+  
     updateReservations(reservations) {
-        this.reservations = reservations;
-        this.updateParticipantsList(reservations);
-      }
-
+      this.reservations = reservations;
+      this.updateParticipantsList(reservations);
+    }
+  
     showWinner(winner) {
-      // Animação do sorteio
       const winnerDisplay = this.element.querySelector('#winner-display');
+      if (!winnerDisplay) return; // Proteção contra elemento não encontrado
       
       // Efeito de "embaralhamento" antes de mostrar o vencedor
       let count = 0;
       const totalIterations = 20;
       const interval = setInterval(() => {
         count++;
+        
+        if (this.reservations.length === 0) {
+          clearInterval(interval);
+          winnerDisplay.textContent = 'Não há participantes para sortear';
+          return;
+        }
+        
         const randomIndex = Math.floor(Math.random() * this.reservations.length);
         const randomWinner = this.reservations[randomIndex];
         

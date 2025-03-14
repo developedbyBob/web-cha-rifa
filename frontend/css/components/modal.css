@@ -1,15 +1,16 @@
-/* Modal */
+/* frontend/css/components/modal.css */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    backdrop-filter: blur(3px);
   }
   
   .modal.hidden {
@@ -17,75 +18,92 @@
   }
   
   .modal-content {
-    background: linear-gradient(135deg, #68b9c8, #608997);
+    background: linear-gradient(135deg, #68b9c8, #4a8390);
     color: #fff;
-    padding: 20px;
+    padding: 25px;
     width: 90%;
-    max-width: 400px;
+    max-width: 450px;
     text-align: left;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
     position: relative;
+    animation: slideDown 0.3s ease-out;
   }
   
   .close-button {
     background: none;
     border: none;
-    font-size: 1.5em;
+    font-size: 24px;
     color: #fff;
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     cursor: pointer;
     transition: transform 0.2s ease;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
   }
   
   .close-button:hover {
     transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
   
   .modal-content h2 {
     font-size: 22px;
     margin-bottom: 20px;
     color: #f4b23c;
+    text-align: center;
   }
   
   .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
   }
   
   .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 16px;
   }
   
   .form-group input {
-    width: 95%;
-    padding: 10px;
+    width: 100%;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) inset;
   }
   
   .gift-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin: 15px 0;
+    gap: 12px;
+    margin: 18px 0;
   }
   
   .gift-option {
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 12px;
+    padding: 14px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     border: 2px solid transparent;
+    font-weight: 500;
   }
   
   .gift-option:hover {
     background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
   
   .gift-option.selected {
@@ -97,11 +115,11 @@
     background-color: rgba(0, 0, 0, 0.1);
     padding: 15px;
     border-radius: 8px;
-    margin-top: 15px;
+    margin-top: 20px;
   }
   
   .pix-details textarea {
-    width: 95%;
+    width: 100%;
     height: 80px;
     padding: 10px;
     border: none;
@@ -109,6 +127,7 @@
     margin: 10px 0;
     font-family: 'Poppins', sans-serif;
     resize: none;
+    box-sizing: border-box;
   }
   
   .copy-button {
@@ -118,58 +137,89 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
   
   .copy-button:hover {
     background-color: #e0a21f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .success-message {
     color: #d4edda;
     margin-top: 10px;
-    font-weight: bold;
+    font-weight: 600;
+    text-align: center;
   }
   
   .error-message {
     background-color: #f8d7da;
     color: #721c24;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 18px;
     text-align: center;
+    font-weight: 500;
+    animation: shake 0.5s ease;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
   }
   
   .submit-button {
     background-color: #f4b23c;
     color: #fff;
-    padding: 12px 24px;
+    padding: 14px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
     width: 100%;
-    margin-top: 20px;
-    font-size: 16px;
+    margin-top: 25px;
+    font-size: 18px;
     transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .submit-button:hover {
     background-color: #e0a21f;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+  }
+  
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  legend {
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
   
   @media (max-width: 480px) {
     .modal-content {
-      padding: 15px;
+      padding: 20px 15px;
     }
     
     .gift-option {
-      padding: 10px;
+      padding: 12px;
     }
     
     .copy-button, .submit-button {
-      padding: 10px 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+    }
+    
+    .form-group input {
+      padding: 10px;
     }
   }

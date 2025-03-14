@@ -1,4 +1,131 @@
 /* frontend/css/main.css */
+/* Estilos básicos para o corpo da página */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f8ff;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Estilos para o cabeçalho */
+header {
+  background-color: #68b9c8;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+header h2 {
+  font-family: 'Cookie', cursive;
+  font-size: 2.2em;
+  margin-top: 10px;
+  color: #f4b23c;
+}
+
+/* Estilos para o contêiner de informações */
+.info {
+  background-color: white;
+  border-radius: 10px;
+  padding: 25px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+/* Estilos para o rodapé */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #68b9c8;
+  color: white;
+  margin-top: 30px;
+}
+
+.copyright {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Botão de admin */
+.admin-button {
+  background-color: #f4b23c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-button:hover {
+  background-color: #e0a21f;
+}
+
+/* Loading spinner */
+.loading-spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #68b9c8;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 30px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Classes utilitárias */
+.hidden {
+  display: none !important;
+}
+
+/* Notificações */
+.notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s;
+}
+
+.notification.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.notification.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
 /* Adicionando animações e transições */
 .fade-in {
   animation: fadeIn 0.3s ease-in;
@@ -6,11 +133,6 @@
 
 .fade-out {
   animation: fadeOut 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 @keyframes fadeOut {
