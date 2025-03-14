@@ -1,0 +1,196 @@
+/* frontend/css/components/admin.css */
+.admin-panel {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .admin-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .tab-button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #6c757d;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  
+  .tab-button:hover {
+    color: #495057;
+  }
+  
+  .tab-button.active {
+    color: #4daabb;
+  }
+  
+  .tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #4daabb;
+    border-radius: 3px 3px 0 0;
+  }
+  
+  .tab-content {
+    display: block;
+  }
+  
+  .tab-content.hidden {
+    display: none;
+  }
+  
+  .search-bar {
+    margin-bottom: 15px;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .participants-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .participants-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s ease;
+  }
+  
+  .participants-list li:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .participant-info {
+    display: grid;
+    grid-template-columns: 50px 2fr 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .number {
+    font-weight: bold;
+    color: #4daabb;
+  }
+  
+  .delete-button {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .delete-button:hover {
+    background-color: #e2818a;
+    color: #fff;
+  }
+  
+  .draw-button {
+    background-color: #f4b23c;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .draw-button:hover {
+    background-color: #e0a21f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .winner-display {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 18px;
+    min-height: 60px;
+  }
+  
+  .winner-announcement {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 2px solid #ffeeba;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 20px;
+    animation: pulse 1s infinite alternate;
+  }
+  
+  .close-admin {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .close-admin:hover {
+    background-color: #5a6268;
+  }
+  
+  /* Animação de confete */
+  .confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+  }
+  
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: confetti-fall 5s linear forwards;
+  }
+  
+  @keyframes confetti-fall {
+    to {
+      transform: translateY(100vh) rotate(720deg);
+    }
+  }

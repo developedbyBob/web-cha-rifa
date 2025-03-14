@@ -1,0 +1,60 @@
+/* frontend/css/components/grid.css */
+#grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  .cell {
+    padding: 20px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #dcfcff;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-family: "Hachi Maru Pop", serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+  }
+  
+  .cell:hover:not(.reserved) {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cell.available {
+    color: #04424d;
+  }
+  
+  .cell.reserved {
+    background-color: #ffcccc;
+    color: #721c24;
+    cursor: not-allowed;
+  }
+  
+  /* Media queries para melhor responsividade */
+  @media (max-width: 600px) {
+    #grid {
+      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    }
+    
+    .cell {
+      padding: 15px;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    #grid {
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    }
+    
+    .cell {
+      padding: 10px;
+      font-size: 12px;
+    }
+  }

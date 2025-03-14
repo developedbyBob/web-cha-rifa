@@ -1,0 +1,85 @@
+/* frontend/css/main.css */
+/* Adicionando animações e transições */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Animação para o sorteio */
+.draw-animation {
+  animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+
+/* Transições suaves */
+.cell, .gift-option, button {
+  transition: all 0.2s ease;
+}
+
+.modal-content {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Melhorias no CSS para responsividade */
+@media (max-width: 768px) {
+  .info {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .modal-content {
+    width: 90%;
+    max-width: 350px;
+    padding: 15px;
+  }
+  
+  #admin-panel {
+    padding: 15px;
+    margin: 10px;
+  }
+  
+  header h1 img {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .info {
+    padding: 15px;
+    font-size: 14px;
+  }
+  
+  .modal-content {
+    padding: 10px;
+  }
+  
+  .modal-content h2 {
+    font-size: 18px;
+  }
+  
+  #admin-panel ul li {
+    font-size: 14px;
+  }
+}
